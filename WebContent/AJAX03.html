@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>使用AJAX对象发送POST请求</title>
+<script type="text/javascript" src="js/my.js"></script>
+<script type="text/javascript">
+function getText(){
+	//发送post类型请求
+	//1.获取AJAX对象
+	var xhr=new getXhr();
+	//4.设置AJAX函数回调处理
+	xhr.onreadystatechange=function(){
+		if(xhr.readyState==4&&xhr.status==200){
+			var txt=xhr.responseText;
+			alert(txt);
+		}
+	}
+	//2.创建请求
+	xhr.open("post","post_text.do",true);
+	//post请求必须自行添加请求头
+	xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+	//3.发送请求
+	xhr.send("uname=张三");
+}
+</script>
+</head>
+<body>
+<!--使用AJAX对象发送post请求，并获取文本  -->
+<button onclick="getText();">发送post请求</button>
+</body>
+</html>

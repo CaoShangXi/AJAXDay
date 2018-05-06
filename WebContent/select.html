@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>使用AJAX实现级联下拉列表</title>
+<script src="js/my.js"></script>
+<script type="text/javascript">
+function getCity(val){
+	//1.获取AJAX对象
+	var xhr=new getXhr();
+	//4.设置回调处理函数
+	xhr.onreadystatechange=function(){
+		if(xhr.readyState==4&&xhr.status==200){
+			//接收服务器返回的数据
+			var txt=xhr.responseText;
+			//以分号为一组数据来拆分
+			var strs=txt.split(";");
+			//清空下拉选#s2,my.js文件对选择器进行了封装，所以写成$("s2")也能起效。
+			$("s2").innerHTML="";
+			for(var i=0;i<strs.length;i++){
+				var str1s=strs[i].split(",");
+				/*构造一个Option对象,Option对象里面第一个参数是文本第二个参数是值  */
+				var op=new Option(str1s[0],str1s[1]);
+				/*options是select的一个属性,其值是一个数组。数组中的元素是option对象  */
+				$("s2").options[i]=op;
+			}
+		}
+	}
+	//2.创建请求
+	xhr.open("get","getCity.do?val="+encodeURI(val),true);//需要使用encodeURI()编成UTF-8编码。
+	//3.发送请求
+	xhr.send(null);
+}
+</script>
+</head>
+<body>
+<select id="s1" style="width:120px;" onchange="getCity(this.value);">
+<option value="bj">北京</option>
+<option value="sh">上海</option>
+<option value="sz">深圳</option>
+</select>
+<select id="s2" style="width:120px;">
+
+</select>
+</body>
+</html>

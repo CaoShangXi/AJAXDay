@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>使用AJAX校验用户名</title>
+<style>
+form {
+	width: 380px;
+	margin: 300px auto;
+}
+
+fieldset {
+	width: 500px;
+	height: 100px;
+	border: 1px solid blue;
+	background-color: #eae7e7;
+}
+</style>
+<script type="text/javascript" src="js/my.js"></script>
+<script type="text/javascript">
+	function test(){
+		var txt = document.getElementById("uname");
+		var msg = document.getElementById("a_msg");
+		//1.获取AJAX对象
+		var xhr = new getXhr();
+		//4.设置回调处理函数
+		xhr.onreadystatechange=function(){
+			if(xhr.readyState==4&&xhr.status==200){
+				var info=xhr.responseText;
+				msg.innerText=info;
+			}
+		}
+		//2.创建请求
+		xhr.open("post","check_name.do",true);
+		//post请求必须自行添加请求头
+		xhr.setRequestHeader('content-type','application/x-www-form-urlencoded');
+		//3.发送请求
+		xhr.send("uname="+encodeURI(txt.value));
+		msg.innerHTML="正在检查......";
+	}
+</script>
+</head>
+<body>
+	<!--验证注册信息中的用户名是否可用  -->
+	<form action="check_name.do" method="post">
+		<fieldset>
+			<legend>注册信息</legend>
+			用户名: <input name="uname" id="uname" /> <input type="button"
+				value="请测试一下吧" onclick="test();" /> <span style="color: red" id="a_msg"></span> <br />
+			<input type="submit" value="注册" />
+		</fieldset>
+	</form>
+</body>
+</html>

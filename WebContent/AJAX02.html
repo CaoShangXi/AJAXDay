@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>使用AJAX对象发送get请求</title>
+<script type="text/javascript" src="js/my.js"></script>
+<script type="text/javascript">
+function getText(){
+	//1.获取AJAX对象
+	var xhr=getXhr();
+	//4.设置回调处理函数
+	xhr.onreadystatechange=function(){
+		if(xhr.readyState==4 && xhr.status==200){
+			var txt=xhr.responseText;
+			alert(txt);
+		}
+	}
+	//2.创建请求
+	xhr.open("get","get_text.do?name=张三&age=30",true);
+	//3.发送请求
+	xhr.send(null);
+}
+</script>
+</head>
+<body>
+<a href="javascript:;" onclick="getText();">获取文本</a>
+<div>
+<script>
+document.write("看见我！！");
+</script>
+</div>
+</body>
+</html>

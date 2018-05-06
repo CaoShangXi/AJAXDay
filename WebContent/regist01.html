@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>解决post与get请求出现的乱码问题</title>
+<!--get乱码:1.为了让URL整体都使用UTF-8的方法进行编码，需要使用javascript的encodeURI()方法，所以在open方法创建请求时，第二
+个参数要使用encodeURI()方法进行编码。2.找到Tomcat服务器conf/server.xml文件，在connector节点里面添加属性URIEncoding="UTF-8"
+post乱码:只需在服务端添加两段代码即可，
+        //设置请求过来的解码方式
+		req.setCharacterEncoding("utf-8");
+		//设置响应编码方式
+		res.setContentType("text/html;charset=UTF-8");
+  -->
+<style>
+form {
+	width: 380px;
+	margin: 300px auto;
+}
+
+fieldset {
+	width: 500px;
+	height: 100px;
+	border: 1px solid blue;
+	background-color: #eae7e7;
+}
+</style>
+<script type="text/javascript" src="js/my.js"></script>
+<script type="text/javascript">
+	function test() {
+		var txt = document.getElementById("uname");
+		var msg = document.getElementById("a_msg");
+		var uri_="check_name.do?uname="+ txt.value;
+		//1.获取AJAX对象
+		var xhr = new getXhr();
+		//4.设置回调处理函数
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				var info = xhr.responseText;
+				msg.innerText = info;
+			}
+		}
+		//2.创建请求
+		xhr.open("get",encodeURI(uri_), true);
+		//3.发送请求
+		xhr.send(null);
+		msg.innerHTML = "正在检查......";
+	}
+</script>
+</head>
+<body>
+	<!--验证注册信息中的用户名是否可用  -->
+	<form action="check_name.do" method="post">
+		<fieldset>
+			<legend>注册信息</legend>
+			用户名: <input name="uname" id="uname" /> <input type="button"
+				value="请测试一下吧" onclick="test();" /> <span style="color: red"
+				id="a_msg"></span> <br /> <input type="submit" value="注册" />
+		</fieldset>
+	</form>
+</body>
+</html>
